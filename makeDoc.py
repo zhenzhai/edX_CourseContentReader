@@ -4,18 +4,29 @@ from pathlib import Path
 from collections import defaultdict
 
 class Doc:
+    '''
+    Create a detail documentation for the course file exported from edX.
+    '''
 
+    ## Path variables
     path = Path('.')
     course_path = path / 'course'
     chapter_path = path / 'chapter'
     seq_path = path / 'sequential'
     draft_path = path / 'drafts'
     vert_path = draft_path / 'vertical'
+
+    ## List of all chapters
     chapter_list = []
+
+    ## Structure of sections and units
     problems_struct = defaultdict(list)
 
 
     def __makeCourse(self):
+        '''
+        Create a list of chapters by reading course.xml
+        '''
         course_path = self.course_path / 'course.xml'
         course_txt = course_path.open().readlines()[1:]
         for cline in course_txt:
@@ -24,6 +35,10 @@ class Doc:
                 self.chapter_list.append(chap_name)
 
     def __makeStruct(self):
+        '''
+        Create a problems to units mapping
+        by reading files from folder vertical
+        '''
         self.problems_struct = defaultdict(list)
         for v in self.vert_path.iterdir():
             if v.suffix != '.xml':
@@ -62,6 +77,9 @@ class Doc:
 
 
     def describeChapter(self, readme):
+        '''
+        Write section information into readme
+        '''
         for c in self.chapter_list:
             c += '.xml'
             cFile = self.chapter_path / c
@@ -74,6 +92,9 @@ class Doc:
 
 
     def describeSequen(self, seq, readme):
+        '''
+        Write subsection information into readme
+        '''
         for s in seq:
             s_name = s + '.xml'
             sFile = self.seq_path / s_name
@@ -85,6 +106,9 @@ class Doc:
 
 
     def describeUnit(self, unit, readme):
+        '''
+        Write unit information into readme
+        '''
         for u in unit:
             uPath = Path(u[0])
             fline = uPath.open().readlines()[0]
@@ -94,6 +118,9 @@ class Doc:
 
     
     def describeProb(self, probs, readme):
+        '''
+        Write component information into readme
+        '''
         for pro in probs:
             pro_name = pro[1]+'.xml'
             pFile = self.draft_path / pro[0] / pro_name
@@ -104,7 +131,6 @@ class Doc:
                 readme.write('\t\t\t* [{0}] {1} - [{2}]({2})\n'.format(pro[0], p_name, str(pFile)))
             else:
                 readme.write('\t\t\t* [{0}] - [{1}]({1})\n'.format(pro[0], str(pFile)))
-
 
 
 
