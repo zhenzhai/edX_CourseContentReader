@@ -10,8 +10,6 @@ cd to current directory and run
 
 (If you want this setup script to run automatically, add a line to your .bashrc)
 
-#### You need to have Python2
-
 ### 2. Using makeDoc.py
 * Export your course from edX
 * Unzip the exported .tar.gz file
