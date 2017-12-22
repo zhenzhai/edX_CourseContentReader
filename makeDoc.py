@@ -86,7 +86,8 @@ class Doc:
 
         ## Make course struct
         self.__makeCourse()
-        self.__makeDraftStruct()
+        if self.draft_path.exists() and self.draft_vert_path.exists():
+            self.__makeDraftStruct()
 
 
     def describeCourse(self):
